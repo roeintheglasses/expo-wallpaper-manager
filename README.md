@@ -15,7 +15,7 @@
 </p>
 <p align="center">
 	<img src="https://img.shields.io/badge/Kotlin-7F52FF.svg?style=flat&logo=Kotlin&logoColor=white" alt="Kotlin">
-	<img src="https://img.shields.io/badge/React-61DAFB.svg?style=flat&logo=React&logoColor=black" alt="React-Native">
+	<img src="https://img.shields.io/badge/React_Native-61DAFB.svg?style=flat&logo=React&logoColor=black" alt="React-Native">
 	<img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=flat&logo=TypeScript&logoColor=white" alt="TypeScript">
 	<img src="https://img.shields.io/badge/Gradle-02303A.svg?style=flat&logo=Gradle&logoColor=white" alt="Gradle">
 	<img src="https://img.shields.io/badge/Expo-000020.svg?style=flat&logo=Expo&logoColor=white" alt="Expo">
@@ -38,7 +38,7 @@
 
 ##  Overview
 
-<code>Native android Wallpaper Manager Module implementation for Expo that allows users to modify home and lock screen wallpapers. Based on the [ Android Wallpaper Manager API ](https://developer.android.com/reference/android/app/WallpaperManager)
+<code>Native android Wallpaper Manager Module implementation for Expo based on the [ Android Wallpaper Manager API ](https://developer.android.com/reference/android/app/WallpaperManager)
 </code>
 
 ##  Repository Structure
