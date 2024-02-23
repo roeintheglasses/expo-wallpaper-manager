@@ -8,3 +8,7 @@ export function hello(): string {
   return ExpoWallpaperManagerModule.hello();
 }
 
+export function setWallpaper(options): string {
+  return ExpoWallpaperManagerModule.setWallpaper(options);
+}
+
