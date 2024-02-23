@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android", "web"],
+  "ios": {
+    "modules": ["ExpoWallpaperManagerModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.wallpapermanager.ExpoWallpaperManagerModule"]
+  }
+}
