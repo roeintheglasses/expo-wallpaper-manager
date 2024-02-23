@@ -1,47 +1,66 @@
-package expo.modules.wallpapermanager
+package expo.modules.wallpaper
 
+import android.app.WallpaperManager
+import android.content.Context
+import android.graphics.BitmapFactory
+import android.net.Uri
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 
-class ExpoWallpaperManagerModule : Module() {
+class ExpoWallpaperModule : Module() {
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
   // See https://docs.expo.dev/modules/module-api for more details about available components.
   override fun definition() = ModuleDefinition {
     // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('ExpoWallpaperManager')` in JavaScript.
-    Name("ExpoWallpaperManager")
+    // The module will be accessible from `requireNativeModule('ExpoWallpaper')` in JavaScript.
+    Name("ExpoWallpaper")
 
-    // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-    Constants(
-      "PI" to Math.PI
-    )
+    Function("setWallpaper") { options: Map<String, Any> ->
+      try {
+        val uri = options["uri"] as? String
+        val type = options["type"] as? String
 
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
+        if (uri == null || type == null ) {
+         return@Function "data null"
+        }
+
+        if (type != "lock" && type != "screen" && type != "both") {
+         return@Function "invalid type"
+        }
+
+        val context: Context = context
+        val wallpaperManager = WallpaperManager.getInstance(context)
+        val inputStream = context.contentResolver.openInputStream(Uri.parse(uri))
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+
+        if (type == "screen" ) {
+          wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM)
+        }
+        if (type == "lock" ) {
+          wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+        }
+        if (type == "both" ) {
+          wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+          wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM)
+        }
+
+        return@Function  "success"
+      } catch (e: Exception) {
+        e.printStackTrace()
+        return@Function "fail"
+      }
+    }
 
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("hello") {
       "Hello world! 👋"
     }
 
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { value: String ->
-      // Send an event to JavaScript.
-      sendEvent("onChange", mapOf(
-        "value" to value
-      ))
-    }
-
-    // Enables the module to be used as a native view. Definition components that are accepted as part of
-    // the view definition: Prop, Events.
-    View(ExpoWallpaperManagerView::class) {
-      // Defines a setter for the `name` prop.
-      Prop("name") { view: ExpoWallpaperManagerView, prop: String ->
-        println(prop)
-      }
-    }
   }
+
+  val context
+  get() = requireNotNull(appContext.reactContext)
+
 }
